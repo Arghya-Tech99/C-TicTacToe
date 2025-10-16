@@ -206,7 +206,7 @@ void computer_move(char board[BOARD_SIZE][BOARD_SIZE]) {
     }
   }
 
-  // GOD Mode
+  // Veteran mode
   if (difficulty == 2) {
     // 3. Play Center if available
     if (board[1][1] == ' ') {
@@ -239,6 +239,7 @@ void computer_move(char board[BOARD_SIZE][BOARD_SIZE]) {
     }
   }
 }
+
 
 
 
