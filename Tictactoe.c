@@ -178,67 +178,7 @@ void player_move(char board[BOARD_SIZE][BOARD_SIZE]) {
   board[row][col] = X;
 }
 
-void computer_move(char board[BOARD_SIZE][BOARD_SIZE]) {
-  // 1. Play for Immediate win
-  for (int i = 0; i < BOARD_SIZE; i++) {
-    for (int j = 0; j < BOARD_SIZE; j++) {
-      if (board[i][j] == ' ') {
-        board[i][j] = O;
-        if (check_win(board, O)) {
-          return;
-        }
-        board[i][j] = ' ';
-      }
-    }
-  }
 
-  // 2. Play for Immediate Block
-  for (int i = 0; i < BOARD_SIZE; i++) {
-    for (int j = 0; j < BOARD_SIZE; j++) {
-      if (board[i][j] == ' ') {
-        board[i][j] = X;
-        if (check_win(board, X)) {
-          board[i][j] = O;
-          return;
-        }
-        board[i][j] = ' ';
-      }
-    }
-  }
-
-  // GOD Mode
-  if (difficulty == 2) {
-    // 3. Play Center if available
-    if (board[1][1] == ' ') {
-      board[1][1] = O;
-      return;
-    }
-
-    // 4. Play Corner if available
-    int corner[4][2] = {
-      {0, 0},
-      {0, 2},
-      {2, 0},
-      {2, 2}
-    };
-    for (int i = 0; i < 4; i++) {
-      if (board[corner[i][0]][corner[i][1]] == ' ') {
-        board[corner[i][0]][corner[i][1]] = O;
-        return;
-      }
-    }
-  }
-
-  // 5. Play first available move
-  for (int i = 0; i < BOARD_SIZE; i++) {
-    for (int j = 0; j < BOARD_SIZE; j++) {
-      if (board[i][j] == ' ') {
-        board[i][j] = O;
-        return;
-      }
-    }
-  }
-}
 
 
 
