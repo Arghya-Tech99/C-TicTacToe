@@ -18,15 +18,23 @@ int difficulty;
 void input_difficulty();
 void clear_screen();
 void print_board(char board[BOARD_SIZE][BOARD_SIZE]);
+int check_win(char board[BOARD_SIZE][BOARD_SIZE], char player);
+int check_draw(char board[BOARD_SIZE][BOARD_SIZE]);
+void play_game();
+
 
 int main() {
     input_difficulty();
-    char board[BOARD_SIZE][BOARD_SIZE] = {
-        {' ', ' ', ' '},
-        {'X', ' ', 'X'},
-        {' ', 'O', ' '},
-    };
-    print_board(board);
+    int choice;
+    
+    do {
+        play_game();
+        printf("\n Want to play again?");
+        printf("\n Press 1 for Yes and 0 for No");
+        scanf("%d", &choice);
+    } while(choice == 1);
+    printf("\n Thanks for playing");
+    
 }
 
 void input_difficulty() {
@@ -67,4 +75,43 @@ void print_board(char board[BOARD_SIZE][BOARD_SIZE]) {
     }
   }
   printf("\n\n");
+}
+
+int check_win(char board[BOARD_SIZE][BOARD_SIZE], char player) {
+    // Checks if the player makes a horizontal line
+    for (int i = 0; i < BOARD_SIZE; i++) {
+    if (board[i][0] == player && board[i][1] == player && board[i][2] == player) {
+      return 1; // Player wins - horizontally
+    }
+
+    if (board[0][i] == player && board[1][i] == player && board[2][i] == player) {
+      return 1; // Player wins - vertically
+    }
+  }
+
+  if ((board[0][0] == player && board[1][1] == player && board[2][2] == player) ||
+      (board[2][0] == player && board[1][1] == player && board[0][2] == player)) {
+    return 1; // Player wins - diagonally
+  }
+  return 0; // Player loses
+}
+
+int check_draw(char board[BOARD_SIZE][BOARD_SIZE]) {
+    // check whether the grid is filled or not
+    for (int i = 0; i < BOARD_SIZE; i++) {
+    for (int j = 0; j < BOARD_SIZE; j++) {
+      if (board[i][j] == ' ') {
+        return 0;
+      }
+    }
+  }
+  return 1;
+}
+
+void play_game() {
+    char board[BOARD_SIZE][BOARD_SIZE] = {
+    {' ', ' ', ' '},
+    {' ', ' ', ' '},
+    {' ', ' ', ' '},
+  }; print_board(board);
 }
