@@ -21,7 +21,8 @@ void print_board(char board[BOARD_SIZE][BOARD_SIZE]);
 int check_win(char board[BOARD_SIZE][BOARD_SIZE], char player);
 int check_draw(char board[BOARD_SIZE][BOARD_SIZE]);
 void play_game();
-
+void player_move(char board[BOARD_SIZE][BOARD_SIZE]);
+void computer_move(char board[BOARD_SIZE][BOARD_SIZE]);
 
 int main() {
     input_difficulty();
@@ -113,5 +114,56 @@ void play_game() {
     {' ', ' ', ' '},
     {' ', ' ', ' '},
     {' ', ' ', ' '},
-  }; print_board(board);
+  }; 
+    
+    char current_player = rand() % 2 == 0 ? X : O; // Randomly decide if the player or computer starts
+    print_board(board);
+
+      while (1) {
+    if (current_player == X) {
+      player_move(board);
+      print_board(board);
+      if (check_win(board, X)) {
+        score.player++;
+        print_board(board);
+        printf("Congratulation You have won.!!!");
+        break;
+      }
+      current_player = O;
+    } else {
+      computer_move(board);
+      print_board(board);
+      if (check_win(board, O)) {
+        score.computer++;
+        print_board(board);
+        printf("You played well...");
+        break;
+      }
+      current_player = X;
+    }
+
+    if (check_draw(board)) {
+      score.draw++;
+      print_board(board);
+      printf("\nIt's a draw!");
+      break;
+    }
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 }
