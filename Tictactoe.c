@@ -110,16 +110,15 @@ int check_draw(char board[BOARD_SIZE][BOARD_SIZE]) {
 }
 
 void play_game() {
-    char board[BOARD_SIZE][BOARD_SIZE] = {
+  char board[BOARD_SIZE][BOARD_SIZE] = {
     {' ', ' ', ' '},
     {' ', ' ', ' '},
     {' ', ' ', ' '},
-  }; 
-    
-    char current_player = rand() % 2 == 0 ? X : O; // Randomly decide if the player or computer starts
-    print_board(board);
+  };
+  char current_player = rand() % 2 == 0 ? X : O;
 
-      while (1) {
+  print_board(board);
+  while (1) {
     if (current_player == X) {
       player_move(board);
       print_board(board);
@@ -136,7 +135,7 @@ void play_game() {
       if (check_win(board, O)) {
         score.computer++;
         print_board(board);
-        printf("You played well...");
+        printf("I won !!! But you played well...");
         break;
       }
       current_player = X;
@@ -151,19 +150,47 @@ void play_game() {
   }
 }
 
+void player_move(char board[BOARD_SIZE][BOARD_SIZE]) {
+   int count = 0, x, y;
+  for (int i = 0; i < BOARD_SIZE; i++) {
+    for (int j = 0; j < BOARD_SIZE; j++) {
+      if (board[i][j] == ' ') {
+        count++;
+        x = i;
+        y = j;
+      }
+    }
+  }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+  if (count == 1) {
+    board[x][y] = X;
+    return;
+  }
+  
+  int row, col;
+  do {
+    printf("\nPlayer X's turn.");
+    printf("\nEnter row and column (1-3) for X: ");
+    scanf("%d", &row);
+    scanf("%d", &col);
+    row--; col--; // converting to zero based
+  } while (!is_valid_move(board, row, col));
+  board[row][col] = X;
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
