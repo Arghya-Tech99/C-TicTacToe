@@ -28,14 +28,18 @@ void computer_move(char board[BOARD_SIZE][BOARD_SIZE]);
 int is_valid_move(char board[BOARD_SIZE][BOARD_SIZE], int row, int col);
 
 int main() {
-    input_difficulty();
+    srand(time(NULL));
     int choice;
+    input_difficulty();
     
+    clear_screen(); // Clear screen after choice of difficulty and first game beginning
+
     do {
         play_game();
         printf("\n Want to play again?");
         printf("\n Press 1 for Yes and 0 for No");
         scanf("%d", &choice);
+        clear_screen(); // To prevent carrying over to the next game
     } while(choice == 1);
     printf("\n Thanks for playing");
     
@@ -120,7 +124,7 @@ void play_game() {
   };
   char current_player = rand() % 2 == 0 ? X : O;
 
-  // print_board(board);
+  print_board(board);
   while (1) {
     if (current_player == X) {
       player_move(board);
@@ -172,11 +176,24 @@ void player_move(char board[BOARD_SIZE][BOARD_SIZE]) {
   
   int row, col;
   do {
+    // 1. Re-print the current board state on every failed attempt
+    print_board(board);
     printf("\nPlayer X's turn.");
-    printf("\nEnter row and column (1-3) for X: ");
-    scanf("%d", &row);
-    scanf("%d", &col);
-    row--; col--; // converting to zero based
+    printf("\nEnter row and column (1-3) for X:");
+
+    // 2. Add an error message display
+    if (row != 0) { // Only show this after the first failed attempt
+        printf("\n*** Invalid move. Try again. ***");
+    }
+    
+    // 3. Get input
+    if (scanf("%d", &row) != 1 || scanf("%d", &col) != 1) {
+         // Simple error handling to prevent infinite loop on non-integer input
+         while(getchar() != '\n');
+         row = -1; // Force loop to continue
+         col = -1;
+    }
+    row--; col--; // converting to zero based for computations
   } while (!is_valid_move(board, row, col));
   board[row][col] = X;
 }
