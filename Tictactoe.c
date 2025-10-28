@@ -1,5 +1,6 @@
 #include<stdio.h>
 #include<stdlib.h>
+#include <time.h>
 
 // Macros define for this project
 # define BOARD_SIZE 3
@@ -15,6 +16,7 @@ typedef struct {
 Score score = {.player = 0, .computer = 0, .draw = 0};
 
 int difficulty;
+
 void input_difficulty();
 void clear_screen();
 void print_board(char board[BOARD_SIZE][BOARD_SIZE]);
@@ -23,6 +25,7 @@ int check_draw(char board[BOARD_SIZE][BOARD_SIZE]);
 void play_game();
 void player_move(char board[BOARD_SIZE][BOARD_SIZE]);
 void computer_move(char board[BOARD_SIZE][BOARD_SIZE]);
+int is_valid_move(char board[BOARD_SIZE][BOARD_SIZE], int row, int col);
 
 int main() {
     input_difficulty();
@@ -117,7 +120,7 @@ void play_game() {
   };
   char current_player = rand() % 2 == 0 ? X : O;
 
-  print_board(board);
+  // print_board(board);
   while (1) {
     if (current_player == X) {
       player_move(board);
@@ -241,6 +244,11 @@ void computer_move(char board[BOARD_SIZE][BOARD_SIZE]) {
 }
 
 
+int is_valid_move(char board[BOARD_SIZE][BOARD_SIZE], int row, int col) {
+  return !(row < 0 || col < 0 ||
+           row > 2 || col > 2 ||
+           board[row][col] != ' ');
+}
 
 
 
